@@ -23,8 +23,47 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 function getDNSStats(domains) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+  const arr1 = [];
+  const arr2 = [];
+  const arr3 = [];
+  const result = {};
+  let counter = 1;
+  domains.forEach((element) => {
+    if (element.indexOf('.') !== element.lastIndexOf('.')) {
+      arr1.push(element.slice(element.lastIndexOf('.')));
+      arr2.push(
+        element.slice(element.lastIndexOf('.')) +
+          element.slice(element.indexOf('.'), element.lastIndexOf('.'))
+      );
+      arr3.push(
+        element.slice(element.lastIndexOf('.')) +
+          element.slice(element.indexOf('.'), element.lastIndexOf('.')) +
+          element.slice(element.indexOf('.'), element.indexOf('.') + 1) +
+          element.slice(0, element.indexOf('.'))
+      );
+    } else {
+      arr1.push(element.slice(element.indexOf('.')));
+      arr2.push(
+        element.slice(element.indexOf('.')) +
+          element.slice(element.indexOf('.'), element.indexOf('.') + 1) +
+          element.slice(0, element.indexOf('.'))
+      );
+    }
+  });
+  arr1.forEach((element) => {
+    result[element] = counter;
+    counter += 1;
+  });
+  counter = 1;
+  arr2.forEach((element) => {
+    result[element] = counter;
+    counter += 1;
+  });
+  counter = 1;
+  arr3.forEach((element) => {
+    result[element] = counter;
+  });
+  return result;
 }
 
 module.exports = {
